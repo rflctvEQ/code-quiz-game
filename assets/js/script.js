@@ -1,9 +1,14 @@
 // variable declaration 
 let quizDiv = document.getElementById("quiz");
 let startBtn = document.getElementById("start");
+let viewScores = document.getElementById("scores")
 let timer = document.getElementById("timer");
 let timeLeft = 60;
 timer.textContent = timeLeft + "s";
+// this will be used for retrieving locally stored scores
+let timeStored = JSON.parse(localStorage.getItem("timeKey"));
+// this will be used for retrieving locally stored user names 
+let nameStored = JSON.parse(localStorage.getItem("nameKey"));
 
 // object declaration -- i.e., where the questions/answers will be stored 
 // individual questions and answers
@@ -18,11 +23,11 @@ let questionOne = {
 };
 
 let questionTwo = {
-    question: "Donald Trump:",
+    question: "this was something politically laden",
     answers: {
-        a: "rules my heart",
-        b: "sucks big time fuckin nuts",
-        c: "will save the working class"
+        a: "but then i realized",
+        b: "[this is the correct answer]",
+        c: "github saves every commit O_o"
     },
     correctAnswer: "b"
 };
@@ -42,15 +47,21 @@ let allQuestions = [questionOne, questionTwo, questionThree];
 
 // function for when user loses -- i.e., "you lost" alert (modal if i have time) plus reset quiz
 function youLost() {
-    window.alert("you're trash, bro!");
+    window.alert("You ran out of time! \n\nClick \"Start Code Quiz!\" to play again.");
 };
 
+// TODO reset timer and destroy any remaining page content
 // on click event that connects start button to timer and quiz
 startBtn.addEventListener("click", startGame);
 
 function startGame() {
+    // destroys infoDiv -- i.e., quiz description and start game button
+    let destroy = document.getElementById("infoDiv");
+    destroy.remove();
+
     // this ensures that the player starts with 60s 
     timeLeft = 60;
+
 
     // this is the timer machinery
     let timerInterval = setInterval(function(){
@@ -60,7 +71,7 @@ function startGame() {
         if (timeLeft < 0) {
             // stops timer
             clearInterval(timerInterval);
-            // this is where i should call the "you lost" function
+            // this calls the "you lost" function
             youLost()
             // resets timer visually for user 
             timeLeft = 60;
@@ -212,10 +223,17 @@ function startGame() {
             // this stops the timer
             clearInterval(timerInterval);
 
+            // this updates timeStored array
+            if (timeStored == null) {
+                timeStored = [timeLeft];
+            } else {
+                timeStored.unshift(timeLeft);
+            };
             
-            localStorage.setItem("timeKey", timeLeft);
+            // this stores the time at which the user completed the quiz
+            localStorage.setItem("timeKey", JSON.stringify(timeStored));
 
-            // this moves the user to the second question
+            // this moves the user to the input-name prompt
             inputName();
         });
 
@@ -233,13 +251,13 @@ function startGame() {
 
 // function that creates user's experience whenever quiz ends
 function inputName() {
-    // this removes the content from the last question so that new content can be created for this question
+    // this removes the content from the last question so that new content can be created for the inputDiv
     let destroy = document.querySelector(".questionDiv");
     destroy.remove();
 
     // this creates the div where the user will be able to input their name/initials
     let inputDiv = document.createElement("div");
-    let inputContent = document.createTextNode("Input your name or initials here and press ENTER to store your score!");
+    let inputContent = document.createTextNode("You finished with " + timeLeft + "s remaining.\nInput your name or initials here and press ENTER to store your score!");
     inputDiv.setAttribute("id", "inputDiv");
     inputDiv.appendChild(inputContent);
 
@@ -253,13 +271,95 @@ function inputName() {
     quizDiv.append(inputDiv);
 
     // on click event for storing name information
-    inputForm.addEventListener("submit", function() {
+    inputForm.addEventListener("submit", function () {
         let inputValue = document.getElementById("inputField");
-        localStorage.setItem("nameKey", inputValue.value);
+
+        // this updates nameStored array
+        if (nameStored == null) {
+            nameStored = [inputValue.value];
+        } else {
+            nameStored.unshift(inputValue.value);
+        };
+
+        // this stores the new name entry
+        localStorage.setItem("nameKey", JSON.stringify(nameStored));
+
+        // moves user to previous scores screen
+        prevScores();
     })
 };
 
+// function that creates previous scores list 
+function prevScores() {
+    // this removes inputDiv so that new content can be created for the scoresDiv
+    if (document.querySelector("#inputDiv") !== null) {
+        let destroy = document.querySelector("#inputDiv");
+        destroy.remove();
+    };
 
+    // sets scoresDiv with id 
+    let scoresDiv = document.createElement("div");
+    scoresDiv.setAttribute("id", "scoresDiv");
 
-// on click event for "view highschores" to show user highscores
+    // sets scoresHeading with id and content 
+    let scoresHeading = document.createElement("h1");
+    scoresHeading.setAttribute("id", "scoresHeading");
+    scoresHeading.innerHTML = "Previous Scores";
 
+    // sets namesList with id
+    let namesList = document.createElement("ol");
+    namesList.setAttribute("id", "namesList");
+
+    // sets scoresList with id
+    let scoresList = document.createElement("ul");
+    scoresList.setAttribute("id", "scoresList");
+
+    // sets newGameBtn with id
+    let newGameBtn = document.createElement("button");
+    newGameBtn.setAttribute("id", "newGameBtn");
+    newGameBtn.innerHTML = "New Game";
+
+    // creates list of (previous) user names
+    nameStored.forEach(element => {
+        // sets nameItem with id
+        let nameItem = document.createElement("li");
+        nameItem.setAttribute("id", "listItem");
+        nameItem.innerHTML = element;
+        namesList.appendChild(nameItem);
+    });
+
+    // creates list of (previous) user scores
+    timeStored.forEach(element => {
+        // sets nameItem with id
+        let scoreItem = document.createElement("li");
+        scoreItem.setAttribute("id", "listItem");
+        scoreItem.innerHTML = element;
+        scoresList.appendChild(scoreItem);
+    });
+
+    // this appends previously set elements as children to scoresDiv
+    scoresDiv.appendChild(scoresHeading);
+    scoresDiv.appendChild(namesList);
+    scoresDiv.appendChild(scoresList);
+    scoresDiv.appendChild(newGameBtn);
+
+    // this appends the scoresDiv as a child to quizDiv
+    quizDiv.appendChild(scoresDiv);
+
+    // on click event that refreshes page when "New Game" is clicked
+    let refreshBtn = document.getElementById("newGameBtn");
+    function refresh(){
+        location.reload();
+    };
+    refreshBtn.addEventListener("click", refresh);
+};
+// on click event for "view previous scores" to show user previous scores
+viewScores.addEventListener("click", function() {
+    // this allows user to view/hide previous scores at any point
+    if (document.querySelector("#scoresDiv") !== null) {
+        let destroy = document.querySelector("#scoresDiv");
+        destroy.remove();
+    } else{
+        prevScores();
+    };
+}); 
