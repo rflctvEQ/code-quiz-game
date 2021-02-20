@@ -13,33 +13,30 @@ let nameStored = JSON.parse(localStorage.getItem("nameKey"));
 // object declaration -- i.e., where the questions/answers will be stored 
 // individual questions and answers
 let questionOne = {
-    question: "how big is your suh?",
+    question: "Which of the following would you use to set a variable whose value never changes?",
     answers: {
-        a: "a. not that big",
-        b: "b. average size",
-        c: "c. absolutely massive"
-    },
-    correctAnswer: "c" 
+        a: "var [variable] = [value];",
+        b: "let [variable] = [value];",
+        c: "const [variable] = [value];"
+    }
 };
 
 let questionTwo = {
-    question: "this was something politically laden",
+    question: "Which of the following is the best way to pick out an element by its class?",
     answers: {
-        a: "but then i realized",
-        b: "[this is the correct answer]",
-        c: "github saves every commit O_o"
-    },
-    correctAnswer: "b"
+        a: "document.getElementsByClassName(\".[class name]\");",
+        b: "document.getElementsByClassName(\"[class name]\");",
+        c: "document.getElementByClassName(\"[class name]\");"
+    }
 };
 
 let questionThree = {
-    question: "What's the most important language to know as a web developer?", 
+    question: "How do you add a click event listener to a button query selected by \"btn\"? ", 
     answers: {
-        a: "nerd",
-        b: "javascript",
-        c: "css"
-    },
-    correctAnswer: "a"
+        a: "btn.addEventListener(\"click\", [function]);",
+        b: "btn.click([function]);",
+        c: "btn.addEventListener([function], \"click\");"
+    }
 };
 
 // array containing the questions and answers 
@@ -50,7 +47,6 @@ function youLost() {
     window.alert("You ran out of time! \n\nClick \"Start Code Quiz!\" to play again.");
 };
 
-// TODO reset timer and destroy any remaining page content
 // on click event that connects start button to timer and quiz
 startBtn.addEventListener("click", startGame);
 
@@ -73,7 +69,11 @@ function startGame() {
             clearInterval(timerInterval);
             // this calls the "you lost" function
             youLost()
-            // resets timer visually for user 
+            
+            // reloads the page
+            location.reload();
+            
+            // resets timer visually for user
             timeLeft = 60;
             timer.textContent = timeLeft + "s";
         };
@@ -84,7 +84,7 @@ function startGame() {
         // this creates a div and calls the stored question 
         let newQuestionDiv = document.createElement("div");
         let questionContent = document.createTextNode(questionOne.question);
-        newQuestionDiv.setAttribute("class", "questionDiv");
+        newQuestionDiv.setAttribute("class", "questionDiv justify-content-center");
         newQuestionDiv.appendChild(questionContent);
         quizDiv.append(newQuestionDiv);
 
@@ -259,6 +259,7 @@ function inputName() {
     let inputDiv = document.createElement("div");
     let inputContent = document.createTextNode("You finished with " + timeLeft + "s remaining.\nInput your name or initials here and press ENTER to store your score!");
     inputDiv.setAttribute("id", "inputDiv");
+    inputDiv.setAttribute("class", "inputDiv justify-content-center");
     inputDiv.appendChild(inputContent);
 
     // this creates the form and input field where the user can enter their name/initials
@@ -306,6 +307,16 @@ function prevScores() {
     scoresHeading.setAttribute("id", "scoresHeading");
     scoresHeading.innerHTML = "Previous Scores";
 
+    // sets nameHeading with id and content 
+    let nameHeading = document.createElement("h2")
+    nameHeading.setAttribute("id", "nameHeading");
+    nameHeading.innerHTML = "Name";
+
+    // sets scoreHeading with id and content 
+    let prevScoreHeading = document.createElement("h2");
+    prevScoreHeading.setAttribute("id", "scoreHeading");
+    prevScoreHeading.innerHTML = "Score";
+
     // sets namesList with id
     let namesList = document.createElement("ol");
     namesList.setAttribute("id", "namesList");
@@ -339,6 +350,8 @@ function prevScores() {
 
     // this appends previously set elements as children to scoresDiv
     scoresDiv.appendChild(scoresHeading);
+    scoresDiv.appendChild(nameHeading);
+    scoresDiv.appendChild(prevScoreHeading);
     scoresDiv.appendChild(namesList);
     scoresDiv.appendChild(scoresList);
     scoresDiv.appendChild(newGameBtn);

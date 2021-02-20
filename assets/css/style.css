@@ -9,12 +9,158 @@
 
 body {
     background-color: var(--light-gray);
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
+h1 {
+    color: var(--medium-purple);
+    text-align: center;
+    font-size: 3rem;
+}
+
+p {
+    text-align: center;
+}
+
+/* Section 1: Header */
+#scores {
+    color: var(--dark-gray);
+}
+
+.timer-container {
+    display: flex;
+    flex-direction: row;
+    color: var(--dark-gray);
+}
+
+/* Section 2: Main */
+/* 2.1 Start page */
+
+main {
+    justify-content: center;
+}
+
+.force-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-info {
+    margin-bottom: 2rem;
+}
+
+button {
+    background-color: var(--medium-purple);
+    border: none;
+    border-radius: 200000px;
+    padding: 5px;
+    color: var(--light-gray);
+    
+}
+
+button:active {
+    background-color: var(--dark-gray);
+    border-color: var(--light-gray);
+    color: var(--light-gray);
+    border: none;
+}
+/* 2.2 Quiz pages */
 .questionDiv {
-    border: 2px solid var(--medium-purple);
+    font-size: 3rem;
+    text-align: center;
+    color: var(--dark-gray);
+    border: 5px solid var(--medium-purple);
+    border-radius: 15px; 
+    padding: 10px;
 }
 
 .answerDiv {
-    border: 2px solid var(--medium-purple);
+    background-color: var(--medium-purple);
+    font-size: 2rem;
+    font-family: monospace;
+    color: var(--light-gray);
+    border: 2px solid var(--light-gray);
+    border-radius: 20000000px;
+    margin: 10px auto 10px auto;
+    padding: 15px;
 }
+
+.answerDiv:active {
+    background-color: var(--dark-gray);
+    color: var(--light-gray);
+}
+
+/* 2.3 Input page */
+.inputDiv {
+    font-size: 3rem;
+    text-align: center;
+    color: var(--dark-gray);
+    border: 5px solid var(--medium-purple);
+    border-radius: 15px; 
+    padding: 5vw;
+}
+
+#inputField {
+    font-size: 2rem;
+    font-family: monospace;
+    color: var(--medium-purple);
+    border: 5px solid var(--medium-purple);
+    border-radius: 200000px;
+    text-align: center;
+    
+}
+
+#inputField:focus {
+    outline: none;
+}
+
+
+/* 2.4 Scores */ 
+#scoresDiv {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#scoresHeading {
+    width: 100%;
+}
+
+#nameHeading {
+    width: 50%;
+    padding-left: 2vw;
+}
+
+#prevScoreHeading {
+    width: 50%;
+    margin-left: 2vw;
+}
+
+#namesList {
+    width: 50%;
+    text-align: center;
+    border-top: 5px solid var(--medium-purple);
+    border-left: 5px solid var(--medium-purple);
+    border-bottom: 5px solid var(--medium-purple);
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+#scoresList {
+    width: 50%;
+    text-align: center;
+    border-top: 5px solid var(--medium-purple);
+    border-right: 5px solid var(--medium-purple);
+    border-bottom: 5px solid var(--medium-purple);
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    list-style-type: none;
+}
+
+#newGameBtn {
+    justify-content: center;
+}
+
+/*! optimize for smaller screen sizes!!! */ 
+/*! view/hide scores does really funky things when clicked during quiz */
