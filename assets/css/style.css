@@ -7,6 +7,11 @@
     --tan: #b1a296;
 }
 
+::selection {
+    background-color: var(--darkest-purple);
+    color: var(--tan);
+}
+
 body {
     background-color: var(--light-gray);
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -35,9 +40,9 @@ p {
 
 /* Section 2: Main */
 /* 2.1 Start page */
-
 main {
     justify-content: center;
+    padding-top: 5rem;
 }
 
 .force-column {
@@ -64,6 +69,13 @@ button:active {
     color: var(--light-gray);
     border: none;
 }
+
+.center-scores {
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+}
+
 /* 2.2 Quiz pages */
 .questionDiv {
     font-size: 3rem;
@@ -162,5 +174,49 @@ button:active {
     justify-content: center;
 }
 
-/*! optimize for smaller screen sizes!!! */ 
-/*! view/hide scores does really funky things when clicked during quiz */
+/* This optimizes the page for tablets */
+@media screen and (max-width: 770px) {
+    .questionDiv {
+        font-size: 2rem;
+    }
+
+    .answerDiv {
+        font-size: 1rem;
+    }
+
+    .inputDiv {
+        font-size: 2rem;
+    }
+}
+
+/* This optimizes the page for mobile */
+@media screen and (max-width: 550px) {
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .lead {
+        font-size: 1rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .questionDiv {
+        font-size: 1rem;
+    }
+
+    .answerDiv {
+        font-size: 0.5rem;
+    }
+
+    .inputDiv {
+        font-size: 1rem;
+    }
+
+    #inputField {
+        font-size: 1rem;
+    }
+}

@@ -31,7 +31,7 @@ let questionTwo = {
 };
 
 let questionThree = {
-    question: "How do you add a click event listener to a button query selected by \"btn\"? ", 
+    question: "Using vanilla JavaScript, how would you add a click event listener to a button query selected by \"btn\"? ", 
     answers: {
         a: "btn.addEventListener(\"click\", [function]);",
         b: "btn.click([function]);",
@@ -54,6 +54,13 @@ function startGame() {
     // destroys infoDiv -- i.e., quiz description and start game button
     let destroy = document.getElementById("infoDiv");
     destroy.remove();
+
+    if (document.querySelector("#scoresDiv") == null) {
+        null;
+    } else {
+        let evicerate = document.getElementById("scoresDiv");
+        evicerate.remove();
+    };
 
     // this ensures that the player starts with 60s 
     timeLeft = 60;
@@ -272,7 +279,8 @@ function inputName() {
     quizDiv.append(inputDiv);
 
     // on click event for storing name information
-    inputForm.addEventListener("submit", function () {
+    inputForm.addEventListener("submit", function (event) {
+        event.preventDefault();
         let inputValue = document.getElementById("inputField");
 
         // this updates nameStored array
@@ -331,22 +339,36 @@ function prevScores() {
     newGameBtn.innerHTML = "New Game";
 
     // creates list of (previous) user names
-    nameStored.forEach(element => {
-        // sets nameItem with id
-        let nameItem = document.createElement("li");
+    if (nameStored == null) {
+        nameItem = document.createElement("li");
         nameItem.setAttribute("id", "listItem");
-        nameItem.innerHTML = element;
+        nameItem.innerHTML = "You have to have played";
         namesList.appendChild(nameItem);
-    });
+    } else {
+        nameStored.forEach(element => {
+            // sets nameItem with id
+            let nameItem = document.createElement("li");
+            nameItem.setAttribute("id", "listItem");
+            nameItem.innerHTML = element;
+            namesList.appendChild(nameItem);
+        });
+    }
 
     // creates list of (previous) user scores
-    timeStored.forEach(element => {
-        // sets nameItem with id
-        let scoreItem = document.createElement("li");
+    if (timeStored == null) {
+        scoreItem = document.createElement("li");
         scoreItem.setAttribute("id", "listItem");
-        scoreItem.innerHTML = element;
+        scoreItem.innerHTML = "to have previous scores!"
         scoresList.appendChild(scoreItem);
-    });
+    } else {
+        timeStored.forEach(element => {
+            // sets scoreItem with id
+            let scoreItem = document.createElement("li");
+            scoreItem.setAttribute("id", "listItem");
+            scoreItem.innerHTML = element;
+            scoresList.appendChild(scoreItem);
+        });
+    };
 
     // this appends previously set elements as children to scoresDiv
     scoresDiv.appendChild(scoresHeading);
