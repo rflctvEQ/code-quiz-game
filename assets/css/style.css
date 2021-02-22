@@ -20,12 +20,10 @@ body {
 h1 {
     color: var(--medium-purple);
     text-align: center;
-    font-size: 3rem;
-}
+    font-size: 3rem;}
 
 p {
-    text-align: center;
-}
+    text-align: center;}
 
 /* Section 1: Header */
 #scores {
@@ -209,7 +207,7 @@ button:active {
     }
 
     .answerDiv {
-        font-size: 0.5rem;
+        font-size: 1rem;
     }
 
     .inputDiv {
